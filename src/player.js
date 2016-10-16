@@ -6,6 +6,8 @@ const MS_PER_FRAME = 1000/8;
  * @module exports the Player class
  */
 module.exports = exports = Player;
+var pImage = new Image();
+pImage.src = 'assets/P1.png';
 
 /**
  * @constructor Player
@@ -53,6 +55,8 @@ function Player(position, canvas) {
       case 'ArrowUp': // up
       case 'w':
         self.thrusting = false;
+        self.velocity.x = self.velocity.x/4;
+        self.velocity.y = self.velocity.y/4;
         break;
       case 'ArrowLeft': // left
       case 'a':
@@ -108,17 +112,10 @@ Player.prototype.render = function(time, ctx) {
   ctx.save();
 
   // Draw player's ship
-  ctx.translate(this.position.x, this.position.y);
-  ctx.rotate(-this.angle);
-  ctx.beginPath();
-  ctx.moveTo(0, -10);
-  ctx.lineTo(-10, 10);
-  ctx.lineTo(0, 0);
-  ctx.lineTo(10, 10);
-  ctx.closePath();
-  ctx.strokeStyle = 'white';
-  ctx.stroke();
-
+   ctx.translate(this.position.x, this.position.y);
+   ctx.rotate(-this.angle);
+  ctx.drawImage(pImage, 0,0, 112, 75,
+  -15,-15,30,30);
   // Draw engine thrust
   if(this.thrusting) {
     ctx.beginPath();

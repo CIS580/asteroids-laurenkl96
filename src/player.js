@@ -1,7 +1,6 @@
 "use strict";
 
 const MS_PER_FRAME = 1000/8;
-
 /**
  * @module exports the Player class
  */
@@ -17,6 +16,7 @@ pImage.src = 'assets/P1.png';
 function Player(position, canvas) {
   this.worldWidth = canvas.width;
   this.worldHeight = canvas.height;
+  this.img = pImage;
   this.state = "idle";
   this.position = {
     x: position.x,
@@ -27,11 +27,11 @@ function Player(position, canvas) {
     y: 0
   }
   this.angle = 0;
-  this.radius  = 64;
+  this.radius  = 30;
   this.thrusting = false;
   this.steerLeft = false;
   this.steerRight = false;
-
+  this.lives = 3;
   var self = this;
   window.onkeydown = function(event) {
     switch(event.key) {
@@ -55,8 +55,8 @@ function Player(position, canvas) {
       case 'ArrowUp': // up
       case 'w':
         self.thrusting = false;
-        self.velocity.x = self.velocity.x/4;
-        self.velocity.y = self.velocity.y/4;
+        self.velocity.x = self.velocity.x/8;
+        self.velocity.y = self.velocity.y/8;
         break;
       case 'ArrowLeft': // left
       case 'a':
@@ -110,11 +110,10 @@ Player.prototype.update = function(time) {
  */
 Player.prototype.render = function(time, ctx) {
   ctx.save();
-
   // Draw player's ship
-   ctx.translate(this.position.x, this.position.y);
-   ctx.rotate(-this.angle);
-  ctx.drawImage(pImage, 0,0, 112, 75,
+  ctx.translate(this.position.x, this.position.y);
+  ctx.rotate(-this.angle);
+  ctx.drawImage(this.img, 0,0, 112, 75,
   -15,-15,30,30);
   // Draw engine thrust
   if(this.thrusting) {

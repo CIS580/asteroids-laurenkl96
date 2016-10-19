@@ -24,19 +24,37 @@ sm[1] = new Image();
 sm[1].src = 'assets/Sm 2.png';
 var beenHit = 0;
 
-function Asteroid(position, canvas){
+function Asteroid(position, size, canvas){
   this.worldWidth = canvas.width;
   this.worldHeight = canvas.height;
+  this.mass = size;
   this.position = {
     x: position.x,
     y: position.y
   };
   this.velocity = {
-    x: .25,
-    y: .25
-  }
+    x: Math.random()*.6 - .3,
+    y: Math.random()*.6 - .3
+  };
   this.angle = 0;
-  this.radius  = 64;
+  if(this.mass == 3){
+    this.radius  = 30;
+  }
+  else if(this.mass == 2){
+    this.radius  = 15;
+  }
+  else{
+    this.radius  = 7;
+  }
+
+  if(this.mass == 3){
+    this.img = big[parseInt(Math.random()*4)];
+  }else if(this.mass == 2){
+    this.img = med[parseInt(Math.random()*2)];
+  }else{
+    this.img = sm[parseInt(Math.random()*2)];
+  }
+
 }
 
 Asteroid.prototype.update = function (time){
@@ -53,8 +71,38 @@ Asteroid.prototype.update = function (time){
 Asteroid.prototype.render = function(time,ctx){
     ctx.save();
     // Draw the asteroid
-     ctx.translate(this.position.x, this.position.y);
-     ctx.rotate(-this.angle);
-    ctx.drawImage(this.img, 0,0, 120, 100,
-    0, 0, 60, 60);
+    ctx.translate(this.position.x, this.position.y);
+    ctx.rotate(-this.angle);
+    if(this.img == big[0]){
+      ctx.drawImage(this.img, 0, 0, 120, 100,
+      0, 0, 60, 60);
+    }
+    else if(this.img == big[1]){
+      ctx.drawImage(this.img, 0, 0, 89, 82,
+      0, 0, 60, 60);
+    }
+    else if(this.img == big[2]){
+      ctx.drawImage(this.img, 0, 0, 98, 96,
+      0, 0, 60, 60);
+    }
+    else if (this.img == big[3]){
+      ctx.drawImage(this.img, 0, 0, 101, 84,
+      0, 0, 60, 60);
+    }
+    else if (this.img == med[0]){
+      ctx.drawImage(this.img, 0, 0, 43, 43,
+      0, 0, 30, 30);
+    }
+    else if (this.img == med[1]){
+      ctx.drawImage(this.img, 0, 0, 45, 40,
+      0, 0, 30, 30);
+    }
+    else if (this.img == sm[0]){
+      ctx.drawImage(this.img, 0, 0, 28, 28,
+      0, 0, 15, 15);
+    }
+    else{
+      ctx.drawImage(this.img, 0, 0, 29, 26, 0, 0, 15, 15);
+    }
+    ctx.restore();
 }
